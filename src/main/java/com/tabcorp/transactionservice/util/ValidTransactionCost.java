@@ -8,13 +8,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.FIELD, ElementType.PARAMETER})
+@Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = TotalCostValidator.class)
-public @interface TotalCost {
-    String message() default "Total cost of transaction must not exceed 5000";
+@Constraint(validatedBy = TotalCostValidator.class)  // This points to the validator class
+public @interface ValidTransactionCost {
+    String message() default "Total cost of the transaction must not exceed 5000";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 }
+

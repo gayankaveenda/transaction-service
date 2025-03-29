@@ -1,23 +1,25 @@
-package com.tabcorp.transactionservice.model;
+package com.tabcorp.transactionservice.dto;
 
 import com.tabcorp.transactionservice.util.ProductActive;
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
 
-@Entity
-public class Product {
+public class ProductDto {
 
-    @Id
+    @NotBlank(message = "Product Code is required")
     private String productCode;
 
+    @PositiveOrZero(message = "Product Cost cannot be negative")
     private int cost;
 
     @ProductActive
-    private String status;  // "Active" or "Inactive"
+    private String status;
 
-    public Product() {
+    // Constructors
+    public ProductDto() {
     }
 
-    public Product(String productCode, int cost, String status) {
+    public ProductDto(String productCode, int cost, String status) {
         this.productCode = productCode;
         this.cost = cost;
         this.status = status;

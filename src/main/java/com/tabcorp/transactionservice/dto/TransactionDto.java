@@ -1,11 +1,13 @@
 package com.tabcorp.transactionservice.dto;
 
 import com.tabcorp.transactionservice.util.FutureDate;
+import com.tabcorp.transactionservice.util.ValidTransactionCost;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDateTime;
 
+@ValidTransactionCost
 public class TransactionDto {
 
     @FutureDate
