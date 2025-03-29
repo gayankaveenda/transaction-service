@@ -1,13 +1,26 @@
 package com.tabcorp.transactionservice.dto;
 
+import com.tabcorp.transactionservice.util.FutureDate;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 import java.time.LocalDateTime;
 
 public class TransactionDto {
 
+    @FutureDate
     private LocalDateTime transactionTime;
+
+    @NotNull
+    @Positive
     private Long customerId;
+
+    @Positive
+    @NotNull
     private int quantity;
+
     private String productCode;
+
     private Long transactionId;
 
     // Constructors

@@ -6,17 +6,20 @@ import com.tabcorp.transactionservice.dto.TransactionDto;
 import com.tabcorp.transactionservice.service.ReportService;
 import com.tabcorp.transactionservice.service.TransactionService;
 import com.tabcorp.transactionservice.util.TransactionDataGenerator;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/transactions")
+@Validated
 public class TransactionController {
 
     private final TransactionService transactionService;
@@ -54,7 +57,7 @@ public class TransactionController {
 
     // Endpoint to insert bulk transactions
     @PostMapping("/bulk")
-    public ResponseEntity<String> insertBulkTransactions(@RequestBody List<TransactionDto> transactionDtos) {
+    public ResponseEntity<String> insertBulkTransactions(@Valid @RequestBody List<TransactionDto> transactionDtos) {
         try {
             transactionService.insertBulkTransactions(transactionDtos);
             return new ResponseEntity<>("Bulk transactions inserted successfully", HttpStatus.CREATED);

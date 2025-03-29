@@ -1,5 +1,7 @@
 package com.tabcorp.transactionservice.model;
 
+import com.tabcorp.transactionservice.util.ProductActive;
+import com.tabcorp.transactionservice.util.TotalCost;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,8 +10,10 @@ public class Product {
     @Id
     private String productCode;
 
+    @TotalCost
     private int cost;
 
+    @ProductActive
     private String status;  // "Active" or "Inactive"
 
     public Product() {
