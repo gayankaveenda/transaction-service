@@ -7,7 +7,9 @@ public class Product {
 
     @Id
     private String productCode;
+
     private int cost;
+
     private String status;  // "Active" or "Inactive"
 
     public Product() {

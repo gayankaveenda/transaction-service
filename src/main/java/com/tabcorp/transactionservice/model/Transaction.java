@@ -23,8 +23,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(Long id, LocalDateTime transactionTime, Long customerId, int quantity, String productCode) {
-        this.id = id;
+    public Transaction(LocalDateTime transactionTime, Long customerId, int quantity, String productCode) {
         this.transactionTime = transactionTime;
         this.customerId = customerId;
         this.quantity = quantity;

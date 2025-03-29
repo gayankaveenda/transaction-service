@@ -6,18 +6,31 @@ import com.tabcorp.transactionservice.model.Transaction;
 import com.tabcorp.transactionservice.repository.TransactionRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class TransactionService {
 
+    private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
+
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
+
+    @Value("${spring.jpa.properties.hibernate.jdbc.batch_size}")
+    private int batchSize;
+
 
     @PersistenceContext
     private EntityManager entityManager;  // Injecting the EntityManager
@@ -44,28 +57,75 @@ public class TransactionService {
                 .collect(Collectors.toList());
     }
 
+    public Page<TransactionDto> getAllTransactions(Pageable pageable) {
+        Page<Transaction> transactionsPage = transactionRepository.findAll(pageable);
+        return transactionsPage.map(transactionMapper::toDto); // Convert each entity to DTO
+    }
+
+//    @Transactional
+//    public void insertBulkTransactions(List<TransactionDto> transactionDtos) {
+//
+//        int batchSize = getBatchSize();  // Number of transactions per batch
+//        logger.info("Fetched Batch Size: {}", batchSize);
+//        int totalBatches = 0;
+//
+//        for (int i = 0; i < transactionDtos.size(); i++) {
+//            Transaction transaction = transactionMapper.toEntity(transactionDtos.get(i));
+//            transactionRepository.save(transaction);
+//
+//            // Execute batch insert when we reach the batch size
+//            if (i > 0 && i % batchSize == 0) {
+//                logger.info("Batch {} completed: {}", ++totalBatches);
+//                // Flush and clear the session to ensure batch processing
+//                flushAndClear();
+//            }
+//        }
+//        // Ensure any remaining transactions are saved
+//        flushAndClear();
+//    }
+
     @Transactional
     public void insertBulkTransactions(List<TransactionDto> transactionDtos) {
+        int batchSize = getBatchSize();  // Number of transactions per batch
+        logger.info("Fetched Batch Size: {}", batchSize);
 
-        int batchSize = 1000;  // Number of transactions per batch
-
-        for (int i = 0; i < transactionDtos.size(); i++) {
-            Transaction transaction = transactionMapper.toEntity(transactionDtos.get(i));
-            transactionRepository.save(transaction);
-
-            // Execute batch insert when we reach the batch size
-            if (i > 0 && i % batchSize == 0) {
-                // Flush and clear the session to ensure batch processing
-                flushAndClear();
-            }
+        if (transactionDtos.isEmpty()) {
+            logger.warn("No transactions to insert.");
+            return;
         }
-        // Ensure any remaining transactions are saved
-        flushAndClear();
+
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            IntStream.range(0, (int) Math.ceil((double) transactionDtos.size() / batchSize))
+                    .forEach(batchNumber -> executor.execute(() -> processBatch(batchNumber, batchSize, transactionDtos)));
+
+            logger.info("All batches submitted for processing.");
+        }
     }
+
+    private void processBatch(int batchNumber, int batchSize, List<TransactionDto> transactionDtos) {
+        int fromIndex = batchNumber * batchSize;
+        int toIndex = Math.min(fromIndex + batchSize, transactionDtos.size());
+
+        List<Transaction> transactions = transactionDtos.subList(fromIndex, toIndex)
+                .stream()
+                .map(transactionMapper::toEntity)
+                .toList();
+
+        transactionRepository.saveAll(transactions);
+        flushAndClear();
+
+        logger.info("Batch {} processed: {} transactions", batchNumber + 1, transactions.size());
+    }
+
 
     private void flushAndClear() {
         transactionRepository.flush();  // Ensure that the current transactions are written to DB
         entityManager.clear();  // Clear the persistence context to prevent memory overload
     }
+
+    public int getBatchSize() {
+        return batchSize;
+    }
+
 
 }

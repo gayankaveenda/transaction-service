@@ -8,6 +8,7 @@ public class TransactionDto {
     private Long customerId;
     private int quantity;
     private String productCode;
+    private Long transactionId;
 
     // Constructors
     public TransactionDto() {
@@ -18,6 +19,14 @@ public class TransactionDto {
         this.customerId = customerId;
         this.quantity = quantity;
         this.productCode = productCode;
+    }
+
+    public TransactionDto(LocalDateTime transactionTime, Long customerId, int quantity, String productCode, Long transactionId) {
+        this.transactionTime = transactionTime;
+        this.customerId = customerId;
+        this.quantity = quantity;
+        this.productCode = productCode;
+        this.transactionId = transactionId;
     }
 
     // Getters and Setters
@@ -52,4 +61,9 @@ public class TransactionDto {
     public void setProductCode(String productCode) {
         this.productCode = productCode;
     }
+
+    public Long getTransactionId() {
+        return transactionId;
+    }
+
 }

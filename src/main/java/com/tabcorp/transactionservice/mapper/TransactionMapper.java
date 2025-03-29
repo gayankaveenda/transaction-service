@@ -12,7 +12,8 @@ public class TransactionMapper {
                 transaction.getTransactionTime(),
                 transaction.getCustomerId(),
                 transaction.getQuantity(),
-                transaction.getProductCode()
+                transaction.getProductCode(),
+                transaction.getId()
         );
     }
 

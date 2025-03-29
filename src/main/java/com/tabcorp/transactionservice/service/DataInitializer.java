@@ -32,7 +32,7 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         loadCustomers();
         loadProducts();
-        loadTransactions();
+//        loadTransactions();
     }
 
     private void loadCustomers() {
@@ -64,11 +64,11 @@ public class DataInitializer implements CommandLineRunner {
     private void loadTransactions() {
         if (transactionRepository.count() == 0) { // Avoid duplicates
             List<Transaction> transactions = List.of(
-                    new Transaction(1L, LocalDateTime.now(), 10001L, 2, "PRODUCT_001"),
-                    new Transaction(2L, LocalDateTime.now().minusHours(1), 10002L, 5, "PRODUCT_003"),
-                    new Transaction(3L, LocalDateTime.now().minusDays(1), 10003L, 1, "PRODUCT_005"),
-                    new Transaction(4L, LocalDateTime.now().minusDays(2), 10004L, 10, "PRODUCT_002"),
-                    new Transaction(5L, LocalDateTime.now().minusHours(4), 10005L, 3, "PRODUCT_004")
+                    new Transaction(LocalDateTime.now(), 10001L, 2, "PRODUCT_001"),
+                    new Transaction(LocalDateTime.now().minusHours(1), 10002L, 5, "PRODUCT_003"),
+                    new Transaction(LocalDateTime.now().minusDays(1), 10003L, 1, "PRODUCT_005"),
+                    new Transaction(LocalDateTime.now().minusDays(2), 10004L, 10, "PRODUCT_002"),
+                    new Transaction(LocalDateTime.now().minusHours(4), 10005L, 3, "PRODUCT_004")
             );
             transactionRepository.saveAll(transactions);
         }

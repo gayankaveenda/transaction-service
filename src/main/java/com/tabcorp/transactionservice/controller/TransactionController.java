@@ -1,9 +1,13 @@
 package com.tabcorp.transactionservice.controller;
 
+import com.tabcorp.transactionservice.dto.TotalCostPerCustomerDto;
 import com.tabcorp.transactionservice.dto.TransactionDto;
+import com.tabcorp.transactionservice.service.ReportService;
 import com.tabcorp.transactionservice.service.TransactionService;
 import com.tabcorp.transactionservice.util.TransactionDataGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +20,14 @@ public class TransactionController {
 
     private final TransactionService transactionService;
     private final TransactionDataGenerator transactionDataGenerator;
+    private final ReportService reportService;
 
 
     @Autowired
-    public TransactionController(TransactionService transactionService, TransactionDataGenerator transactionDataGenerator) {
+    public TransactionController(TransactionService transactionService, TransactionDataGenerator transactionDataGenerator, ReportService reportService) {
         this.transactionService = transactionService;
         this.transactionDataGenerator = transactionDataGenerator;
+        this.reportService = reportService;
     }
 
     // Create a new transaction
@@ -32,10 +38,16 @@ public class TransactionController {
         return new ResponseEntity<>(savedTransaction, HttpStatus.CREATED);
     }
 
-    // Get all transactions
+//    // Get all transactions
+//    @GetMapping
+//    public ResponseEntity<List<TransactionDto>> getAllTransactions() {
+//        List<TransactionDto> transactions = transactionService.getAllTransactions();
+//        return new ResponseEntity<>(transactions, HttpStatus.OK);
+//    }
+
     @GetMapping
-    public ResponseEntity<List<TransactionDto>> getAllTransactions() {
-        List<TransactionDto> transactions = transactionService.getAllTransactions();
+    public ResponseEntity<Page<TransactionDto>> getAllTransactions(@RequestParam int page, @RequestParam int size) {
+        Page<TransactionDto> transactions = transactionService.getAllTransactions(PageRequest.of(page, size));
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
@@ -63,6 +75,12 @@ public class TransactionController {
         } catch (Exception e) {
             return new ResponseEntity<>("Error inserting bulk transactions", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/report/total-cost-per-customer")
+    public ResponseEntity<List<TotalCostPerCustomerDto>> getTotalCostPerCustomer() {
+        List<TotalCostPerCustomerDto> report = reportService.getTotalCostPerCustomer();
+        return ResponseEntity.ok(report);
     }
 
 
