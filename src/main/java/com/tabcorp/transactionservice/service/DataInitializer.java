@@ -52,9 +52,9 @@ public class DataInitializer implements CommandLineRunner {
         if (productRepository.count() == 0) { // Avoid duplicates
             List<Product> products = List.of(
                     new Product("PRODUCT_001", 50, "Active"),
-                    new Product("PRODUCT_002", 100, "Inactive"),
+                    new Product("PRODUCT_002", 100, "Active"),
                     new Product("PRODUCT_003", 200, "Active"),
-                    new Product("PRODUCT_004", 10, "Inactive"),
+                    new Product("PRODUCT_004", 10, "Active"),
                     new Product("PRODUCT_005", 500, "Active")
             );
             productRepository.saveAll(products);
