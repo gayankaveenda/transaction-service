@@ -1,6 +1,7 @@
 package com.tabcorp.transactionservice.service;
 
 import com.tabcorp.transactionservice.dto.TotalCostPerCustomerDto;
+import com.tabcorp.transactionservice.dto.TotalCostPerProductDto;
 import com.tabcorp.transactionservice.repository.TransactionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,14 @@ public class ReportService {
     }
 
     public List<TotalCostPerCustomerDto> getTotalCostPerCustomer() {
-        // Now we can directly return the result from the repository
         return transactionRepository.getTotalCostPerCustomer();
+    }
+
+    public List<TotalCostPerProductDto> getTotalCostPerProduct() {
+        return transactionRepository.getTotalCostPerProduct();
+    }
+
+    public Long getNumberOfTransactionsForCustomersByCountry(String country) {
+        return transactionRepository.getNumberOfTransactionsForCustomersByCountry(country);
     }
 }

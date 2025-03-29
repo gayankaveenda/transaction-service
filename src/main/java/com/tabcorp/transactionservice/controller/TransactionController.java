@@ -1,6 +1,7 @@
 package com.tabcorp.transactionservice.controller;
 
 import com.tabcorp.transactionservice.dto.TotalCostPerCustomerDto;
+import com.tabcorp.transactionservice.dto.TotalCostPerProductDto;
 import com.tabcorp.transactionservice.dto.TransactionDto;
 import com.tabcorp.transactionservice.service.ReportService;
 import com.tabcorp.transactionservice.service.TransactionService;
@@ -83,6 +84,15 @@ public class TransactionController {
         return ResponseEntity.ok(report);
     }
 
+    @GetMapping("/report/total-cost-per-product")
+    public ResponseEntity<List<TotalCostPerProductDto>> getTotalCostPerProduct() {
+        List<TotalCostPerProductDto> report = reportService.getTotalCostPerProduct();
+        return ResponseEntity.ok(report);
+    }
 
-
+    @GetMapping("/transactions-per-country")
+    public ResponseEntity<Long> getNumberOfTransactionsForCustomersByCountry(@RequestParam String country) {
+        Long result = reportService.getNumberOfTransactionsForCustomersByCountry(country);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
