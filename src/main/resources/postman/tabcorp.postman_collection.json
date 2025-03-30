@@ -16,9 +16,15 @@
 							"type": "noauth"
 						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:8080/transactions",
+							"raw": "http://localhost:8080/transactions?page=0&size=10",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -26,6 +32,16 @@
 							"port": "8080",
 							"path": [
 								"transactions"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
 							]
 						}
 					},
@@ -42,11 +58,58 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[ \n        {\"transactionTime\": \"2025-03-28T23:55:15\", \"customerId\": 10001, \"quantity\": 5, \"productCode\": \"PRODUCT_001\"},\n        {\"transactionTime\": \"2025-03-28T23:56:15\", \"customerId\": 10002, \"quantity\": 3, \"productCode\": \"PRODUCT_002\"}\n      ]",
+							"raw": "[ \n        {\"transactionTime\": \"2025-03-30T23:55:15\", \"customerId\": 10001, \"quantity\": 101, \"productCode\": \"PRODUCT_001\"},\n        {\"transactionTime\": \"2025-03-31T23:56:15\", \"customerId\": 10002, \"quantity\": 1, \"productCode\": \"PRODUCT_002\"}\n      ]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/transactions/bulk",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transactions",
+								"bulk"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bulk-insert-total-cost-exceeding-5000",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "x-api-key",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[ \n        {\"transactionTime\": \"2025-03-30T23:55:15\", \"customerId\": 10001, \"quantity\": 101, \"productCode\": \"PRODUCT_001\"},\n        {\"transactionTime\": \"2025-03-31T23:56:15\", \"customerId\": 10002, \"quantity\": 1, \"productCode\": \"PRODUCT_002\"}\n      ]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -148,7 +211,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/transactions/transactions-per-country?country=US",
+							"raw": "http://localhost:8080/transactions/transactions-per-country?country=Australia",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -161,7 +224,7 @@
 							"query": [
 								{
 									"key": "country",
-									"value": "US"
+									"value": "Australia"
 								}
 							]
 						}
@@ -171,10 +234,10 @@
 			]
 		},
 		{
-			"name": "test",
+			"name": "test-massive-data-insert",
 			"item": [
 				{
-					"name": "bulk-insert-automatic",
+					"name": "bulk-insert-automatic-1M-transactions",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -214,10 +277,25 @@
 			"name": "customer",
 			"item": [
 				{
-					"name": "get-customer",
+					"name": "Create Customer",
 					"request": {
-						"method": "GET",
-						"header": [],
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\": 101, \"firstName\": \"John\", \"lastName\": \"Doe\", \"email\": \"johndoe@example.com\", \"location\": \"Australia\"}"
+						},
 						"url": {
 							"raw": "http://localhost:8080/customers",
 							"protocol": "http",
@@ -233,18 +311,205 @@
 					"response": []
 				},
 				{
-					"name": "add-customer",
+					"name": "Get Customer by ID",
 					"request": {
-						"method": "POST",
-						"header": [],
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/customers/101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers",
+								"101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Customers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Customer",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": 2,\r\n  \"firstName\": \"John\",\r\n  \"lastName\": \"Doe\",\r\n  \"email\": \"john.doe1@example.com\",\r\n  \"location\": \"Australia\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+							"raw": "{\"id\": 101, \"firstName\": \"John\", \"lastName\": \"Smith\", \"email\": \"johnsmith@example.com\", \"location\": \"Australia\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/customers/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Customer by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
 							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/customers/101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers",
+								"101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Customer with Invalid Email",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\": 202, \"firstName\": \"John\", \"lastName\": \"Doe\", \"email\": \"invalidemail\", \"location\": \"Australia\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Customer with Invalid Email",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\": 202, \"firstName\": \"John\", \"lastName\": \"Smith\", \"email\": \"invalidemail\", \"location\": \"Australia\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/customers/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Blank Customer (Validation Failure)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\": 202, \"firstName\": \"\", \"lastName\": \"\", \"email\": \"\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/customers",
@@ -269,10 +534,16 @@
 					"name": "create-product",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"productCode\": \"PRODUCT_001\",\r\n  \"cost\": 50,\r\n  \"status\": \"InActive\"\r\n}\r\n",
+							"raw": "{\r\n  \"productCode\": \"PRODUCT_001\",\r\n  \"cost\": 50,\r\n  \"status\": \"Active\"\r\n    // \"status\": \"InActive\"\r\n\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -297,43 +568,22 @@
 					"name": "get-product",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/products/PRODUCT_001",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"products",
-								"PRODUCT_001"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "check",
-					"request": {
-						"method": "GET",
 						"header": [
 							{
-								"key": "X-API-KEY",
+								"key": "x-api-key",
 								"value": "MY_STATIC_SECRET_KEY",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/products/check",
+							"raw": "http://localhost:8080/products",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"products",
-								"check"
+								"products"
 							]
 						}
 					},
@@ -343,7 +593,13 @@
 					"name": "delete-product",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://localhost:8080/products/PRODUCT_001",
 							"protocol": "http",
@@ -363,7 +619,13 @@
 					"name": "update-product",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n  \"productCode\": \"PRODUCT_001\",\r\n  \"cost\": 50,\r\n  \"status\": \"Active\"\r\n}",
@@ -383,6 +645,40 @@
 							"path": [
 								"products",
 								"PRODUCT_001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-product-with-inactive-status",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"productCode\": \"PRODUCT_001\",\r\n  \"cost\": 50,\r\n//   \"status\": \"Active\"\r\n    \"status\": \"InActive\"\r\n\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products"
 							]
 						}
 					},
