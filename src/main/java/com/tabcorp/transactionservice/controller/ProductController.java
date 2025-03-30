@@ -2,6 +2,7 @@ package com.tabcorp.transactionservice.controller;
 
 import com.tabcorp.transactionservice.dto.ProductDto;
 import com.tabcorp.transactionservice.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class ProductController {
 
     // Create a new product
     @PostMapping
-    public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
+    public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto productDto) {
         ProductDto createdProduct = productService.createProduct(productDto);
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
@@ -53,7 +54,7 @@ public class ProductController {
 
     // Update product by productCode
     @PutMapping("/{productCode}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable String productCode, @RequestBody ProductDto productDto) {
+    public ResponseEntity<ProductDto> updateProduct(@Valid @PathVariable String productCode, @RequestBody ProductDto productDto) {
         ProductDto updatedProduct = productService.updateProduct(productCode, productDto);
         return updatedProduct != null
                 ? new ResponseEntity<>(updatedProduct, HttpStatus.OK)
