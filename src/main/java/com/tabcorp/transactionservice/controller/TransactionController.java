@@ -42,13 +42,6 @@ public class TransactionController {
         return new ResponseEntity<>(savedTransaction, HttpStatus.CREATED);
     }
 
-//    // Get all transactions
-//    @GetMapping
-//    public ResponseEntity<List<TransactionDto>> getAllTransactions() {
-//        List<TransactionDto> transactions = transactionService.getAllTransactions();
-//        return new ResponseEntity<>(transactions, HttpStatus.OK);
-//    }
-
     @GetMapping
     public ResponseEntity<Page<TransactionDto>> getAllTransactions(@RequestParam int page, @RequestParam int size) {
         Page<TransactionDto> transactions = transactionService.getAllTransactions(PageRequest.of(page, size));

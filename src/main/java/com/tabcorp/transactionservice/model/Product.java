@@ -23,6 +23,10 @@ public class Product {
         this.status = status;
     }
 
+    public Product(String productCode, int cost) {
+        this(productCode, cost, "Active");
+    }
+
     // Getters and Setters
     public String getProductCode() {
         return productCode;

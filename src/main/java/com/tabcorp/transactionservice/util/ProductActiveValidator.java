@@ -16,7 +16,7 @@ public class ProductActiveValidator implements ConstraintValidator<ProductActive
 
     private boolean isProductActive(String productStatus) {
         if (StringUtils.isNotBlank(productStatus)) {
-            return productStatus.toLowerCase().equals("active");
+            return productStatus.equalsIgnoreCase("active");
         }
         return false;
     }

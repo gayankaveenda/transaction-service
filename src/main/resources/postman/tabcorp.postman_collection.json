@@ -1,0 +1,394 @@
+{
+	"info": {
+		"_postman_id": "b9fe5d6a-ba19-4f70-918a-5f6dc82ceca2",
+		"name": "tabcorp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8115191"
+	},
+	"item": [
+		{
+			"name": "transaction",
+			"item": [
+				{
+					"name": "get-with-paging",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bulk-insert",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[ \n        {\"transactionTime\": \"2025-03-28T23:55:15\", \"customerId\": 10001, \"quantity\": 5, \"productCode\": \"PRODUCT_001\"},\n        {\"transactionTime\": \"2025-03-28T23:56:15\", \"customerId\": 10002, \"quantity\": 3, \"productCode\": \"PRODUCT_002\"}\n      ]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/transactions/bulk",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transactions",
+								"bulk"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "reporting",
+			"item": [
+				{
+					"name": "total-cost-per-customer",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/transactions/report/total-cost-per-customer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transactions",
+								"report",
+								"total-cost-per-customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "total-cost-per-product",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/transactions/report/total-cost-per-product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transactions",
+								"report",
+								"total-cost-per-product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transactions-per-country",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/transactions/transactions-per-country?country=US",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transactions",
+								"transactions-per-country"
+							],
+							"query": [
+								{
+									"key": "country",
+									"value": "US"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "test",
+			"item": [
+				{
+					"name": "bulk-insert-automatic",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/transactions/bulkInsert?numberOfTransactions=1000000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"transactions",
+								"bulkInsert"
+							],
+							"query": [
+								{
+									"key": "numberOfTransactions",
+									"value": "1000000"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "customer",
+			"item": [
+				{
+					"name": "get-customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add-customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 2,\r\n  \"firstName\": \"John\",\r\n  \"lastName\": \"Doe\",\r\n  \"email\": \"john.doe1@example.com\",\r\n  \"location\": \"Australia\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "create-product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"productCode\": \"PRODUCT_001\",\r\n  \"cost\": 50,\r\n  \"status\": \"InActive\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/products/PRODUCT_001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"PRODUCT_001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "MY_STATIC_SECRET_KEY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/products/check",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/products/PRODUCT_001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"PRODUCT_001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"productCode\": \"PRODUCT_001\",\r\n  \"cost\": 50,\r\n  \"status\": \"Active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/products/PRODUCT_001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"PRODUCT_001"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

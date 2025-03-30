@@ -1,7 +1,6 @@
 package com.tabcorp.transactionservice.controller;
 
 import com.tabcorp.transactionservice.dto.CustomerDto;
-import com.tabcorp.transactionservice.model.Customer;
 import com.tabcorp.transactionservice.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

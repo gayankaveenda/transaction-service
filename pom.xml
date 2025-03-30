@@ -79,11 +79,6 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>1.6.9</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>jakarta.validation</groupId>-->
-<!--            <artifactId>jakarta.validation-api</artifactId>-->
-<!--            <version>2.0.2</version>-->
-<!--        </dependency>-->
     </dependencies>
 
     <build>
@@ -114,7 +109,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M7</version> <!-- Use latest stable version -->
                 <configuration>
-                    <argLine>-javaagent:${settings.localRepository}/net/bytebuddy/byte-buddy-agent/1.15.11/byte-buddy-agent-1.15.11.jar</argLine>
+                    <argLine>
+                        -javaagent:${settings.localRepository}/net/bytebuddy/byte-buddy-agent/1.15.11/byte-buddy-agent-1.15.11.jar
+                    </argLine>
                 </configuration>
             </plugin>
             <plugin>
@@ -129,7 +126,7 @@
                         <configuration>
                             <tasks>
                                 <exec executable="docker">
-                                    <arg line="build -t gayankaveenda/transaction-service:latest ." />
+                                    <arg line="build -t gayankaveenda/transaction-service:latest ."/>
                                 </exec>
                             </tasks>
                         </configuration>

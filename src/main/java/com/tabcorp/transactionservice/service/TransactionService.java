@@ -62,31 +62,8 @@ public class TransactionService {
         return transactionsPage.map(transactionMapper::toDto); // Convert each entity to DTO
     }
 
-//    @Transactional
-//    public void insertBulkTransactions(List<TransactionDto> transactionDtos) {
-//
-//        int batchSize = getBatchSize();  // Number of transactions per batch
-//        logger.info("Fetched Batch Size: {}", batchSize);
-//        int totalBatches = 0;
-//
-//        for (int i = 0; i < transactionDtos.size(); i++) {
-//            Transaction transaction = transactionMapper.toEntity(transactionDtos.get(i));
-//            transactionRepository.save(transaction);
-//
-//            // Execute batch insert when we reach the batch size
-//            if (i > 0 && i % batchSize == 0) {
-//                logger.info("Batch {} completed: {}", ++totalBatches);
-//                // Flush and clear the session to ensure batch processing
-//                flushAndClear();
-//            }
-//        }
-//        // Ensure any remaining transactions are saved
-//        flushAndClear();
-//    }
-
     @Transactional
     public void insertBulkTransactions(List<TransactionDto> transactionDtos) {
-        int batchSize = getBatchSize();  // Number of transactions per batch
         logger.info("Fetched Batch Size: {}", batchSize);
 
         if (transactionDtos.isEmpty()) {
@@ -95,7 +72,7 @@ public class TransactionService {
         }
 
         try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
-            IntStream.range(0, (int) Math.ceil((double) transactionDtos.size() / batchSize))
+            IntStream.range(0, (int) Math.ceil((double) transactionDtos.size() / getBatchSize()))
                     .forEach(batchNumber -> executor.execute(() -> processBatch(batchNumber, batchSize, transactionDtos)));
 
             logger.info("All batches submitted for processing.");
@@ -126,6 +103,5 @@ public class TransactionService {
     public int getBatchSize() {
         return batchSize;
     }
-
 
 }

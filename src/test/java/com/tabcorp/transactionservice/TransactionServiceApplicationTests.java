@@ -8,6 +8,9 @@ class TransactionServiceApplicationTests {
 
     @Test
     void contextLoads() {
+        /*
+        Default behaviour
+         */
     }
 
 }

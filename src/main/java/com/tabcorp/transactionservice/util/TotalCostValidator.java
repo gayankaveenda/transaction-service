@@ -14,8 +14,12 @@ import java.util.Optional;
 @Component
 public class TotalCostValidator implements ConstraintValidator<ValidTransactionCost, TransactionDto> {
 
+    private ProductRepository productRepository;
+
     @Autowired
-    private ProductRepository productRepository;  // Inject ProductRepository to fetch product cost
+    public TotalCostValidator(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Override
     public void initialize(ValidTransactionCost constraintAnnotation) {
@@ -31,11 +35,11 @@ public class TotalCostValidator implements ConstraintValidator<ValidTransactionC
         // Fetch the product cost from the repository
         Optional<Product> product = productRepository.findById(transactionDto.getProductCode());
 
-        if(!product.isPresent()) {
+        if (!product.isPresent()) {
             return false;
         }
 
-        Integer productCost =  product.get().getCost();
+        Integer productCost = product.get().getCost();
 
         if (productCost == null) {
             return false;  // If product cost is not found, validation fails.
