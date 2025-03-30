@@ -23,6 +23,12 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @GetMapping("/check")
+    public ResponseEntity<String> checkApiKey(@RequestHeader("X-API-KEY") String apiKey) {
+        // This API method requires the correct API key passed in the header
+        return new ResponseEntity<>("API Key: " + apiKey + " is valid!", HttpStatus.OK);
+    }
+
     // Create a new product
     @PostMapping
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
