@@ -67,7 +67,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[ \n        {\"transactionTime\": \"2025-03-30T23:55:15\", \"customerId\": 10001, \"quantity\": 101, \"productCode\": \"PRODUCT_001\"},\n        {\"transactionTime\": \"2025-03-31T23:56:15\", \"customerId\": 10002, \"quantity\": 1, \"productCode\": \"PRODUCT_002\"}\n      ]",
+							"raw": "[ \n        {\"transactionTime\": \"2025-03-30T23:55:15\", \"customerId\": 10001, \"quantity\": 100, \"productCode\": \"PRODUCT_001\"},\n        {\"transactionTime\": \"2025-03-31T23:56:15\", \"customerId\": 10002, \"quantity\": 1, \"productCode\": \"PRODUCT_002\"}\n      ]",
 							"options": {
 								"raw": {
 									"language": "json"
